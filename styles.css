@@ -1,0 +1,476 @@
+:root {
+    --gold: #d4af37;
+    --silver: #c0c0c0;
+    --deep-blue: #000033;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #000000, var(--deep-blue));
+    font-family: 'Cinzel', serif;
+    color: var(--silver);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    overflow-y: auto;
+}
+
+.title {
+    font-size: 3rem;
+    background: linear-gradient(to bottom, var(--gold), #916c25);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--silver);
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    position: relative;
+    margin: 4rem 0 2rem;
+    width: 100%;
+}
+
+.card {
+    width: 120px;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    transform-origin: center 120%;
+}
+
+.card:hover {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #4a3c2d url('images/card-back.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    backface-visibility: hidden;
+}
+
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    overflow: hidden;
+}
+
+.card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.reset-button {
+    margin-top: 0.5rem;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    min-width: 120px;
+    height: auto;
+    line-height: normal;
+    text-align: center;
+    touch-action: manipulation;
+}
+
+.reset-button::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    z-index: -1;
+}
+
+.reset-button:hover {
+    background: var(--gold);
+    color: var(--deep-blue);
+}
+
+.reset-button.touched {
+    background: var(--gold);
+    color: var(--deep-blue);
+}
+
+.hidden {
+    display: none;
+}
+
+.selected-card-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.selected-card-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+footer {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instruction {
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.card-reading {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 200px;
+    z-index: 90;
+    display: none;
+    flex-shrink: 0;
+}
+
+.card-reading.hidden {
+    display: none;
+}
+
+.card-description {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid var(--gold);
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.8s ease;
+}
+
+.card-description.show {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+}
+
+/* 添加滚动样式 */
+body.show-scroll {
+    overflow-y: auto;
+    padding-bottom: 50vh; /* 添加底部空间以允许滚动 */
+}
+
+.card-reading .reset-button {
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+    left: auto;
+    bottom: auto;
+}
+
+/* 修改卡片选中后的样式 */
+.card.selected {
+    position: relative;
+    z-index: 100;
+}
+
+/* 调整选中卡片的容器样式 */
+.selected-card-wrapper {
+    position: relative;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* 商品推荐模块样式 */
+.product-recommendations {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.recommendation-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, var(--deep-blue), var(--gold));
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommendation-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* 移动端样式调整 */
+@media screen and (max-width: 768px) {
+    /* 容器调整 */
+    .container {
+        padding: 1rem;
+        padding-top: 3rem;
+        justify-content: flex-start;
+        min-height: 100vh;
+        position: relative;
+        overflow-y: auto;
+    }
+
+    /* 标题区域调整 */
+    header {
+        margin-top: 2rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* 选中卡片的容器样式 */
+    .selected-card-wrapper {
+        position: absolute;
+        top: 65%;
+        left: 0;
+        right: 0;
+        height: 200px;
+        margin: 0;
+        z-index: 20;
+    }
+
+    /* 卡片解读区域的位置 */
+    .card-reading {
+        position: relative;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        margin-top: 120px;
+        z-index: 30;
+        padding-bottom: 1rem;
+    }
+
+    /* 调整选中后的卡片位置 */
+    .card.selected {
+        position: fixed;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.8) !important;
+        top: 65% !important;
+        left: 50% !important;
+        z-index: 100;
+    }
+
+    /* 调整文本框内部间距 */
+    .card-description {
+        margin-bottom: 1.5rem;
+    }
+
+    /* 商品推荐按钮样式 */
+    .recommendation-button {
+        margin: 1rem auto;
+    }
+
+    /* 重新抽卡按钮位置 */
+    .reset-button {
+        margin: 1rem auto;
+    }
+
+    /* 调整页脚位置 */
+    footer {
+        position: relative;
+        width: 100%;
+        padding: 1rem 0;
+        margin-top: 1rem;
+    }
+
+    /* 确保内容可滚动 */
+    .container {
+        min-height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 商品推荐按钮样式 */
+    .recommendation-button {
+        margin: 0.5rem auto;
+        display: inline-block;
+    }
+
+    /* 调整牌堆容器 */
+    .cards-container {
+        height: 250px;
+        transform: scale(0.7);
+        transform-origin: center center;
+        margin: 3rem -20% 1rem;
+    }
+
+    /* 调整卡片基础大小 */
+    .card {
+        width: 100px;
+        height: 166px;
+    }
+
+    /* 调整提示文字位置 */
+    .instruction {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 110;
+    }
+
+    /* 重新抽卡按钮样式 */
+    .reset-button {
+        margin: 1rem auto;
+        padding: 1rem 2rem;
+        width: 80%;
+        max-width: 300px;
+        height: 50px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 110;
+    }
+
+    /* 扩大按钮点击区域 */
+    .reset-button::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        bottom: -15px;
+        left: -15px;
+        z-index: -1;
+    }
+}
+
+/* 针对 iPhone 刘海屏的特殊处理 */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media screen and (max-width: 768px) {
+        .container {
+            padding-top: calc(env(safe-area-inset-top) + 1rem);  /* 使用系统安全区域值 */
+        }
+    }
+}
+
+/* 更小屏幕的额外调整 */
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;  /* 从 1.4rem 增加到 1.8rem */
+    }
+
+    .subtitle {
+        font-size: 1rem;  /* 从 0.8rem 增加到 1rem */
+    }
+
+    .cards-container {
+        transform: scale(0.6);
+        margin: 2.5rem -25% 1rem;
+    }
+
+    .card {
+        width: 90px;
+        height: 150px;
+    }
+
+    /* 调整选中后的卡片位置和大小 */
+    .card.selected {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.5) !important;
+        top: 65% !important;
+    }
+
+    /* 调整卡片解读区域的位置 */
+    .card-reading {
+        margin-top: 100px;
+    }
+
+    /* 调整推荐按钮 */
+    .recommendation-button {
+        padding: 1rem 1.8rem;
+        font-size: 1rem;  /* 从 0.9rem 增加到 1rem */
+    }
+
+    /* 调整重新抽卡按钮位置 */
+    .reset-button {
+        margin: 1.5rem auto;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 超小屏幕的特殊处理 */
+@media screen and (max-width: 360px) {
+    .title {
+        font-size: 1.6rem;  /* 从 1.2rem 增加到 1.6rem */
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .cards-container {
+        transform: scale(0.5);  /* 更小的缩放比例 */
+        margin: 1rem -30%;  /* 更大的负边距 */
+    }
+}
+  
