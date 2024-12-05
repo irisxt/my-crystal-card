@@ -50,7 +50,7 @@ body {
     align-items: center;
     height: 300px;
     position: relative;
-    margin: 2rem 0;
+    margin: 4rem 0 2rem;
     width: 100%;
 }
 
@@ -109,9 +109,32 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    min-width: 120px;
+    height: auto;
+    line-height: normal;
+    text-align: center;
+    touch-action: manipulation;
+}
+
+.reset-button::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    z-index: -1;
 }
 
 .reset-button:hover {
+    background: var(--gold);
+    color: var(--deep-blue);
+}
+
+.reset-button.touched {
     background: var(--gold);
     color: var(--deep-blue);
 }
@@ -266,7 +289,7 @@ body.show-scroll {
     /* 选中卡片的容器样式 */
     .selected-card-wrapper {
         position: absolute;
-        top: 60%;
+        top: 65%;
         left: 0;
         right: 0;
         height: 200px;
@@ -281,7 +304,7 @@ body.show-scroll {
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
-        margin-top: 180px;
+        margin-top: 120px;
         z-index: 30;
         padding-bottom: 1rem;
     }
@@ -290,7 +313,7 @@ body.show-scroll {
     .card.selected {
         position: fixed;
         transform: translate(-50%, -50%) rotate(0deg) scale(1.8) !important;
-        top: 60% !important;
+        top: 65% !important;
         left: 50% !important;
         z-index: 100;
     }
@@ -331,6 +354,54 @@ body.show-scroll {
         margin: 0.5rem auto;
         display: inline-block;
     }
+
+    /* 调整牌堆容器 */
+    .cards-container {
+        height: 250px;
+        transform: scale(0.7);
+        transform-origin: center center;
+        margin: 3rem -20% 1rem;
+    }
+
+    /* 调整卡片基础大小 */
+    .card {
+        width: 100px;
+        height: 166px;
+    }
+
+    /* 调整提示文字位置 */
+    .instruction {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 110;
+    }
+
+    /* 重新抽卡按钮样式 */
+    .reset-button {
+        margin: 1rem auto;
+        padding: 1rem 2rem;
+        width: 80%;
+        max-width: 300px;
+        height: 50px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 110;
+    }
+
+    /* 扩大按钮点击区域 */
+    .reset-button::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        bottom: -15px;
+        left: -15px;
+        z-index: -1;
+    }
 }
 
 /* 针对 iPhone 刘海屏的特殊处理 */
@@ -353,24 +424,24 @@ body.show-scroll {
     }
 
     .cards-container {
-        height: 200px;  /* 从 180px 增加到 200px */
-        transform: scale(0.8);  /* 从 0.7 增加到 0.8 */
+        transform: scale(0.6);
+        margin: 2.5rem -25% 1rem;
     }
 
     .card {
-        width: 80px;   /* 从 70px 增加到 80px */
-        height: 133px; /* 保持宽高比 */
+        width: 90px;
+        height: 150px;
     }
 
     /* 调整选中后的卡片位置和大小 */
     .card.selected {
         transform: translate(-50%, -50%) rotate(0deg) scale(1.5) !important;
-        top: 55% !important;
+        top: 65% !important;
     }
 
     /* 调整卡片解读区域的位置 */
     .card-reading {
-        margin-top: 280px;
+        margin-top: 100px;
     }
 
     /* 调整推荐按钮 */
@@ -381,7 +452,9 @@ body.show-scroll {
 
     /* 调整重新抽卡按钮位置 */
     .reset-button {
-        margin: 2rem auto 1.5rem;
+        margin: 1.5rem auto;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -396,7 +469,8 @@ body.show-scroll {
     }
 
     .cards-container {
-        transform: scale(0.7);  /* 从 0.6 增加到 0.7 */
+        transform: scale(0.5);  /* 更小的缩放比例 */
+        margin: 1rem -30%;  /* 更大的负边距 */
     }
 }
   
