@@ -249,86 +249,87 @@ body.show-scroll {
     /* 容器调整 */
     .container {
         padding: 1rem;
-        padding-top: 3rem;  /* 增加顶部间距，避开刘海区域 */
-        justify-content: center;  /* 内容居中显示 */
+        padding-top: 3rem;
+        justify-content: flex-start;
+        min-height: 100vh;
+        position: relative;
+        overflow-y: auto;
     }
 
     /* 标题区域调整 */
     header {
-        margin-top: 2rem;  /* 增加标题区域的上边距 */
-    }
-
-    /* 标题调整 */
-    .title {
-        font-size: 2rem;
-        margin-bottom: 0.3rem;
-    }
-    
-    .subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;  /* 增加与牌堆的间距 */
-    }
-
-    /* 牌堆容器调整 */
-    .cards-container {
-        height: 220px;
-        margin: 1rem 0;
-        transform: scale(0.9);
-    }
-
-    /* 单张卡片尺寸调整 */
-    .card {
-        width: 90px;   /* 从 80px 增加到 90px */
-        height: 150px; /* 保持宽高比 */
-        transform-origin: center 120px;  /* 调整扇形展开的原点 */
-    }
-
-    /* 调整卡片悬停效果 */
-    .card:hover {
-        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);  /* 减小阴影 */
-    }
-
-    /* 调整文本显示 */
-    .card-description {
-        padding: 1.2rem;
-        font-size: 1.1rem;  /* 从 0.9rem 增加到 1.1rem */
-        line-height: 1.6;
-    }
-
-    /* 调整推荐按钮 */
-    .recommendation-button {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;  /* 从 0.9rem 增加到 1.1rem */
-    }
-
-    /* 调整选中卡片的容器样式 */
-    .selected-card-wrapper {
+        margin-top: 2rem;
         position: relative;
-        margin-top: 0.25rem;
-        margin-bottom: 0.25rem;
-        height: 200px;  /* 增加容器高度，为卡片预留空间 */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex-shrink: 0;
+        z-index: 10;
     }
 
-    /* 调整卡片解读区域的位置 */
+    /* 选中卡片的容器样式 */
+    .selected-card-wrapper {
+        position: absolute;
+        top: 60%;
+        left: 0;
+        right: 0;
+        height: 200px;
+        margin: 0;
+        z-index: 20;
+    }
+
+    /* 卡片解读区域的位置 */
     .card-reading {
         position: relative;
+        top: auto;
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
-        margin-top: 250px;  /* 增加顶部边距，避免与卡片重叠 */
+        margin-top: 180px;
+        z-index: 30;
+        padding-bottom: 1rem;
     }
 
     /* 调整选中后的卡片位置 */
     .card.selected {
-        position: fixed;  /* 改为固定定位 */
+        position: fixed;
         transform: translate(-50%, -50%) rotate(0deg) scale(1.8) !important;
-        top: 35% !important;  /* 调整垂直位置 */
+        top: 60% !important;
         left: 50% !important;
         z-index: 100;
+    }
+
+    /* 调整文本框内部间距 */
+    .card-description {
+        margin-bottom: 1.5rem;
+    }
+
+    /* 商品推荐按钮样式 */
+    .recommendation-button {
+        margin: 1rem auto;
+    }
+
+    /* 重新抽卡按钮位置 */
+    .reset-button {
+        margin: 1rem auto;
+    }
+
+    /* 调整页脚位置 */
+    footer {
+        position: relative;
+        width: 100%;
+        padding: 1rem 0;
+        margin-top: 1rem;
+    }
+
+    /* 确保内容可滚动 */
+    .container {
+        min-height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 商品推荐按钮样式 */
+    .recommendation-button {
+        margin: 0.5rem auto;
+        display: inline-block;
     }
 }
 
@@ -364,18 +365,23 @@ body.show-scroll {
     /* 调整选中后的卡片位置和大小 */
     .card.selected {
         transform: translate(-50%, -50%) rotate(0deg) scale(1.5) !important;
-        top: 30% !important;
+        top: 55% !important;
     }
 
     /* 调整卡片解读区域的位置 */
     .card-reading {
-        margin-top: 200px;  /* 调整顶部边距 */
+        margin-top: 280px;
     }
 
     /* 调整推荐按钮 */
     .recommendation-button {
         padding: 1rem 1.8rem;
         font-size: 1rem;  /* 从 0.9rem 增加到 1rem */
+    }
+
+    /* 调整重新抽卡按钮位置 */
+    .reset-button {
+        margin: 2rem auto 1.5rem;
     }
 }
 
