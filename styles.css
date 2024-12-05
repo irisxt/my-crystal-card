@@ -243,4 +243,154 @@ body.show-scroll {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
+
+/* 移动端样式调整 */
+@media screen and (max-width: 768px) {
+    /* 容器调整 */
+    .container {
+        padding: 1rem;
+        padding-top: 3rem;  /* 增加顶部间距，避开刘海区域 */
+        justify-content: center;  /* 内容居中显示 */
+    }
+
+    /* 标题区域调整 */
+    header {
+        margin-top: 2rem;  /* 增加标题区域的上边距 */
+    }
+
+    /* 标题调整 */
+    .title {
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;  /* 增加与牌堆的间距 */
+    }
+
+    /* 牌堆容器调整 */
+    .cards-container {
+        height: 220px;
+        margin: 1rem 0;
+        transform: scale(0.9);
+    }
+
+    /* 单张卡片尺寸调整 */
+    .card {
+        width: 90px;   /* 从 80px 增加到 90px */
+        height: 150px; /* 保持宽高比 */
+        transform-origin: center 120px;  /* 调整扇形展开的原点 */
+    }
+
+    /* 调整卡片悬停效果 */
+    .card:hover {
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);  /* 减小阴影 */
+    }
+
+    /* 调整文本显示 */
+    .card-description {
+        padding: 1.2rem;
+        font-size: 1.1rem;  /* 从 0.9rem 增加到 1.1rem */
+        line-height: 1.6;
+    }
+
+    /* 调整推荐按钮 */
+    .recommendation-button {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;  /* 从 0.9rem 增加到 1.1rem */
+    }
+
+    /* 调整选中卡片的容器样式 */
+    .selected-card-wrapper {
+        position: relative;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+        height: 200px;  /* 增加容器高度，为卡片预留空间 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    /* 调整卡片解读区域的位置 */
+    .card-reading {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        margin-top: 250px;  /* 增加顶部边距，避免与卡片重叠 */
+    }
+
+    /* 调整选中后的卡片位置 */
+    .card.selected {
+        position: fixed;  /* 改为固定定位 */
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.8) !important;
+        top: 35% !important;  /* 调整垂直位置 */
+        left: 50% !important;
+        z-index: 100;
+    }
+}
+
+/* 针对 iPhone 刘海屏的特殊处理 */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media screen and (max-width: 768px) {
+        .container {
+            padding-top: calc(env(safe-area-inset-top) + 1rem);  /* 使用系统安全区域值 */
+        }
+    }
+}
+
+/* 更小屏幕的额外调整 */
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;  /* 从 1.4rem 增加到 1.8rem */
+    }
+
+    .subtitle {
+        font-size: 1rem;  /* 从 0.8rem 增加到 1rem */
+    }
+
+    .cards-container {
+        height: 200px;  /* 从 180px 增加到 200px */
+        transform: scale(0.8);  /* 从 0.7 增加到 0.8 */
+    }
+
+    .card {
+        width: 80px;   /* 从 70px 增加到 80px */
+        height: 133px; /* 保持宽高比 */
+    }
+
+    /* 调整选中后的卡片位置和大小 */
+    .card.selected {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.5) !important;
+        top: 30% !important;
+    }
+
+    /* 调整卡片解读区域的位置 */
+    .card-reading {
+        margin-top: 200px;  /* 调整顶部边距 */
+    }
+
+    /* 调整推荐按钮 */
+    .recommendation-button {
+        padding: 1rem 1.8rem;
+        font-size: 1rem;  /* 从 0.9rem 增加到 1rem */
+    }
+}
+
+/* 超小屏幕的特殊处理 */
+@media screen and (max-width: 360px) {
+    .title {
+        font-size: 1.6rem;  /* 从 1.2rem 增加到 1.6rem */
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .cards-container {
+        transform: scale(0.7);  /* 从 0.6 增加到 0.7 */
+    }
+}
   

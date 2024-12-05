@@ -89,12 +89,88 @@ class TarotCard {
                 delete card.dataset.hoverTransform;
             });
             
-            card.addEventListener('click', (e) => {
+            // 记录触摸起始位置
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let isDragging = false;
+
+            // 触摸开始
+            card.addEventListener('touchstart', (e) => {
+                if (card.dataset.isHovered) return;
+                
+                // 记录起始触摸位置
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isDragging = false;
+                
+                // 显示悬停效果
+                card.dataset.isHovered = 'true';
+                const angle = parseFloat(card.dataset.angle);
+                const radians = angle * Math.PI / 180;
+                const x = Math.sin(radians) * 30;
+                const y = -Math.cos(radians) * 30 - 70;
+                const hoverTransform = `rotate(${angle}deg) translate(${x}px, ${y}px)`;
+                card.style.transform = hoverTransform;
+                card.dataset.hoverTransform = hoverTransform;
+
                 e.preventDefault();
-                if (!card.dataset.isHovered) return; // 确保只在悬停状态时可点击
-                const currentTransform = card.dataset.hoverTransform || card.dataset.originalTransform;
-                this.selectCard(card, i + 1, currentTransform);
+            }, { passive: false });
+
+            // 触摸移动
+            card.addEventListener('touchmove', (e) => {
+                if (!card.dataset.isHovered) return;
+                
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                
+                // 计算移动距离
+                const deltaX = touchX - touchStartX;
+                const deltaY = touchY - touchStartY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                // 如果移动距离超过阈值，标记为拖动
+                if (distance > 30) {  // 30px的阈值
+                    isDragging = true;
+                    
+                    // 计算拖动方向是否与卡片角度一致
+                    const angle = parseFloat(card.dataset.angle);
+                    const radians = angle * Math.PI / 180;
+                    const expectedX = Math.sin(radians);
+                    const expectedY = -Math.cos(radians);
+                    
+                    // 计算拖动方向与预期方向的点积
+                    const dragX = deltaX / distance;
+                    const dragY = deltaY / distance;
+                    const dotProduct = dragX * expectedX + dragY * expectedY;
+                    
+                    // 如果拖动方向基本一致，触发选卡
+                    if (dotProduct > 0.5) {  // 允许45度的误差
+                        const currentTransform = card.dataset.hoverTransform;
+                        this.selectCard(card, i + 1, currentTransform);
+                        
+                        // 清除触摸状态
+                        delete card.dataset.isHovered;
+                    }
+                }
             });
+
+            // 触摸结束
+            card.addEventListener('touchend', () => {
+                if (!isDragging) {
+                    delete card.dataset.isHovered;
+                    card.style.transform = card.dataset.originalTransform;
+                    delete card.dataset.hoverTransform;
+                }
+            });
+
+            card.addEventListener('touchcancel', () => {
+                delete card.dataset.isHovered;
+                card.style.transform = card.dataset.originalTransform;
+                delete card.dataset.hoverTransform;
+            });
+
+            // 移除点击事件，改为完全依赖触摸交互
+            card.removeEventListener('click', null);
             
             this.cards.push(card);
             container.appendChild(card);
