@@ -94,6 +94,15 @@ class TarotCard {
             let touchStartY = 0;
             let isDragging = false;
 
+            // 添加鼠标点击事件
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (card.dataset.isHovered) {
+                    const currentTransform = card.dataset.hoverTransform || card.dataset.originalTransform;
+                    this.selectCard(card, i + 1, currentTransform);
+                }
+            });
+
             // 触摸开始
             card.addEventListener('touchstart', (e) => {
                 if (card.dataset.isHovered) return;
@@ -169,9 +178,6 @@ class TarotCard {
                 delete card.dataset.hoverTransform;
             });
 
-            // 移除点击事件，改为完全依赖触摸交互
-            card.removeEventListener('click', null);
-            
             this.cards.push(card);
             container.appendChild(card);
         }
