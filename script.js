@@ -88,12 +88,16 @@ class TarotCard {
         const xScale = 0.5;  // x方向位移缩放因子
         const yScale = 1.2;  // y方向位移增强因子
 
+        // 创建卡牌序号数组并打乱顺序
+        let cardNumbers = Array.from({length: totalCards}, (_, i) => i + 1);
+        cardNumbers = this.shuffleArray(cardNumbers);
+
         for (let i = 0; i < totalCards; i++) {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
                 <div class="card-front">
-                    <img src="images/tarot-${i + 1}.jpg" alt="Crystal Card ${i + 1}">
+                    <img src="images/tarot-${cardNumbers[i]}.jpg" alt="Crystal Card ${cardNumbers[i]}">
                 </div>
                 <div class="card-back"></div>
             `;
@@ -104,6 +108,7 @@ class TarotCard {
             
             card.dataset.originalTransform = transform;
             card.dataset.angle = angle;
+            card.dataset.cardNumber = cardNumbers[i];  // 保存真实的卡牌编号
             
             // 添加触摸事件处理
             card.addEventListener('touchstart', (e) => {
@@ -135,7 +140,7 @@ class TarotCard {
                 
                 if (distance > 30) {  // 降低拖动阈值，使其更容易触发
                     const currentTransform = card.dataset.hoverTransform;
-                    this.selectCard(card, i + 1, currentTransform);
+                    this.selectCard(card, card.dataset.cardNumber, currentTransform);
                     delete card.dataset.isHovered;
                     delete card.dataset.touchStartX;
                     delete card.dataset.touchStartY;
@@ -183,7 +188,7 @@ class TarotCard {
                 e.preventDefault();
                 if (card.dataset.isHovered) {
                     const currentTransform = card.dataset.hoverTransform || card.dataset.originalTransform;
-                    this.selectCard(card, i + 1, currentTransform);
+                    this.selectCard(card, card.dataset.cardNumber, currentTransform);
                 }
             });
 
@@ -317,6 +322,15 @@ class TarotCard {
             
             window.scrollTo(0, 0);
         }, 400);
+    }
+
+    // 添加 Fisher-Yates 洗牌算法
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 }
 
